@@ -1,0 +1,9 @@
+[submodule "passari"]
+	path = passari
+	url = ../passari
+[submodule "passari-workflow"]
+	path = passari-workflow
+	url = ../passari-workflow
+[submodule "passari-web-ui"]
+	path = passari-web-ui
+	url = ../passari-web-ui
