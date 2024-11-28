@@ -1,0 +1,46 @@
+[logging]
+# different logging levels:
+# 50 = critical
+# 40 = error
+# 30 = warning
+# 20 = info
+# 10 = debug
+level=10
+
+[db]
+# PostgreSQL server credentials
+user='passari'
+password='passari'
+host='db'
+port='5432'
+name='passari'
+
+[redis]
+# Redis server credentials
+host='redis'
+port='6379'
+password=''
+
+[package]
+# Directory used for packages under processing.
+# It is recommended to use a high performance and high capacity storage
+# for this directory, as the workflow cannot know the size of individual
+# files before downloading them.
+# This should *not* be located in the same filesystem as the Redis and
+# PostgreSQL, as the filesystem can otherwise get full at random due to the
+# aforementioned reason.
+package_dir=''
+
+# Directory used for storing preservation reports for each processed SIP.
+# These files are not read automatically by the workflow and are accessible
+# only through the web UI, meaning it is recommended to use a storage
+# designed for infrequent reads.
+archive_dir=''
+
+# Delay before a new package will enter preservation.
+# Default is 30 days (2592000 seconds)
+preservation_delay=2592000
+
+# Delay before a preserved package will be updated if changed.
+# Default is 30 days (2592000 seconds)
+update_delay=2592000

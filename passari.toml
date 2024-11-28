@@ -1,0 +1,49 @@
+[logging]
+# different logging levels:
+# 50 = critical
+# 40 = error
+# 30 = warning
+# 20 = info
+# 10 = debug
+level=10
+
+[mets]
+# Organization name used in PREMIS events
+organization_name='ORGANIZATION NAME HERE'
+# Contract ID used for DPRES REST API and in PREMIS events
+contract_id='12345678-f00d-d00f-a4b7-010a184befdd'
+
+[sign]
+# Path to the key used to sign the METS
+key_path='/usr/local/lib/python3.12/site-packages/passari/data/test_rsa_keys.crt'
+
+[ssh]
+host=''
+port='22'
+username=''
+private_key=''
+home_path=''
+
+[museumplus]
+# MuseumPlus instance URL ending with '/ria-ws/application'
+url='https://mpfinlandfhatest.zetcom.app/ria-ws/application'
+
+# Template ID used for generating the LIDO XML report
+lido_report_id='45005'
+
+# Field used for storing the preservation history for an object
+# Needs to have the 'Clob' data type
+object_preservation_field_name=''
+object_preservation_field_type='dataField'
+
+# Whether to update MuseumPlus log field with preservation events
+add_log_entries=true
+username=''
+password=''
+
+[dpres]
+# Virtualenv settings for dpres-siptools.
+# These allow dpres-siptools to be installed separately
+# from passari.
+use_virtualenv=false
+virtualenv_path=''

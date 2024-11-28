@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./passari:/app/passari
+      - ./passari-workflow:/app/passari-workflow
+    ports:
+      - "127.0.0.1:5000:5000"
+    environment:
+      - WERKZEUG_DEBUG_PIN=off
+      - FLASK_APP=app
+      - FLASK_ENV=development
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: passari
+      POSTGRES_PASSWORD: passari
+      POSTGRES_DB: passari
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    volumes:
+      - redis_data:/data
+
+  # Redis Commander (Web Interface for Redis)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      REDIS_HOSTS: "local:redis:6379"
+    ports:
+      - "127.0.0.1:8081:8081"
+
+volumes:
+  postgres_data:
+  redis_data:
