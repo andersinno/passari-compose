@@ -72,9 +72,13 @@ COPY ./.git /app/.git
 COPY ./passari /app/passari
 COPY ./passari-workflow /app/passari-workflow
 COPY ./passari-web-ui /app/passari-web-ui
+COPY ./requirements-fixed.txt /app/
 
 # Install Python dependencies for the components
 RUN pip install ./passari ./passari-workflow ./passari-web-ui
+
+# Install the pinned requirements to fix issues with the project
+RUN pip install -r ./requirements-fixed.txt
 
 # Copy the config files
 COPY ./passari.toml /etc/passari/config.toml
