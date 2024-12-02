@@ -6,17 +6,19 @@ services:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - db
-      - redis
+      redis:
+        condition: service_started
+      db:
+        condition: service_healthy
     volumes:
       - ./passari:/app/passari
       - ./passari-workflow:/app/passari-workflow
     ports:
       - "127.0.0.1:5000:5000"
     environment:
-      - WERKZEUG_DEBUG_PIN=off
-      - FLASK_APP=app
-      - FLASK_ENV=development
+      DATABASE_URL: postgres://passari:passari@db/passari
+    env_file:
+      - .env
 
   db:
     image: postgres:15
@@ -26,6 +28,10 @@ services:
       POSTGRES_DB: passari
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: "pg_isready -U passari"
+      interval: 1s
+      retries: 15
 
   redis:
     image: redis:7

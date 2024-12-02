@@ -19,6 +19,7 @@ RUN dnf -y update && \
     libjpeg-turbo-devel \
     libxml2-devel \
     libxslt-devel \
+    postgresql \
     postgresql-devel \
     libpq-devel \
     wget \
@@ -47,7 +48,7 @@ RUN wget https://koji.rpmfusion.org/kojifiles/packages/ffmpeg/5.1.6/2.el9/x86_64
     rm -f libavdevice-5.1.6-2.el9.x86_64.rpm ffmpeg-libs-5.1.6-2.el9.x86_64.rpm ffmpeg-5.1.6-2.el9.x86_64.rpm
 
 # Install tools from PAS-jakelu and Development Tools
-RUN dnf install -y \
+RUN dnf install -y --nobest \
     python3-file-scraper-full \
     python3-dpres-siptools && \
     dnf -y groupinstall "Development Tools" && \
@@ -80,5 +81,6 @@ COPY ./passari.toml /etc/passari/config.toml
 COPY ./passari-workflow.toml /etc/passari-workflow/config.toml
 COPY ./passari-web-ui.toml /etc/passari-web-ui/config.toml
 
-# Default command to keep the container running
-CMD ["tail", "-f", "/dev/null"]
+COPY --chown=appuser:appuser docker-entrypoint.sh /usr/local/bin/
+
+ENTRYPOINT ["docker-entrypoint.sh"]
