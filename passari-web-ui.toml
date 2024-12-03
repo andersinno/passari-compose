@@ -1,0 +1,28 @@
+[flask]
+# Replace this with a secure randomly generated string in production
+SECRET_KEY='test secret key DO NOT USE'
+SECURITY_URL_PREFIX='/web-ui/'
+# Replace this with a random string in production
+SECURITY_PASSWORD_SALT='replace with random string'
+SECURITY_SEND_REGISTER_EMAIL=false
+SECURITY_SEND_PASSWORD_CHANGE_EMAIL=false
+SECURITY_SEND_PASSWORD_RESET_EMAIL=false
+SECURITY_SEND_PASSWORD_RESET_NOTICE_EMAIL=false
+
+# URL to the MuseumPlus web UI. This is the base URL.
+# For example, the following URL should be valid:
+# {MUSEUMPLUS_UI_URL}/Object/1522
+MUSEUMPLUS_UI_URL=''
+
+# The expected heartbeat intervals for automated procedures plus an
+# additional period to account for small delays.
+# If the most recent heartbeat for a procedure is older, a warning
+# will be displayed in the UI.
+# 1 hour (expected) + 15 minutes
+HEARTBEAT_INTERVAL_SYNC_PROCESSED_SIPS=4500
+# 48 hours (expected) + 1 hour
+HEARTBEAT_INTERVAL_SYNC_OBJECTS=176400
+# 48 hours (expected) + 1 hour
+HEARTBEAT_INTERVAL_SYNC_ATTACHMENTS=176400
+# 24 hours (expected) + 1 hour
+HEARTBEAT_INTERVAL_SYNC_HASHES=90000
