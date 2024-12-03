@@ -2,4 +2,5 @@ werkzeug==2.2.2
 rq-dashboard==0.6.1
 sqlalchemy==1.4.32
 Flask-Security-Too==3.4.2
+Flask-WTF==1.0.1
 pytz
