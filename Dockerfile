@@ -58,13 +58,20 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/dnf \
     python3-file-scraper-full \
     python3-dpres-siptools
 
+# Install pipx
+RUN pip install --root-user-action=ignore pipx
+
 # Add appuser (with uid 1000) and change to it
 RUN useradd -d /home/appuser -m -s /bin/bash -u 1000 appuser
 USER appuser
 ENV PYTHONPYCACHEPREFIX=/home/appuser/.cache/pycache
+ENV PATH="$PATH:/home/appuser/.local/bin"
 
 # Set a working directory for the application
 WORKDIR /app
+
+# Install pip-tools
+RUN pipx install pip-tools
 
 # Copy the sources
 #
