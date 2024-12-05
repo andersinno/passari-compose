@@ -66,9 +66,6 @@ ENV PYTHONPYCACHEPREFIX=/home/appuser/.cache/pycache
 # Set a working directory for the application
 WORKDIR /app
 
-# setuptools-scm cannot fetch the version metadata without .git
-COPY ./.git /app/.git
-
 # Copy the sources
 #
 # Note: The dirs are intentionally created as root.  There should be no
