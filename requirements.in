@@ -1,3 +1,22 @@
 -e ./passari
 -e ./passari-workflow
 -e ./passari-web-ui
+
+# Limit upper version of some requirements, because the code doesn't
+# work with the newest versions (yet)
+flask<2.3
+flask-wtf<1.1
+flask-security-too<4
+sqlalchemy<2
+rq-dashboard<0.6.2
+werkzeug<3
+
+# Install pytz, because flask-security-too 3.4 requires flask-babelex
+# and flask-babelex uses pytz even though it doesn't list it as a
+# requirement.  NOTE: Newer flask-security-too (e.g. 5.5.2) doesn't seem
+# to require flask-babelex and pytz might become unnecessary.
+pytz
+
+# Pin psycopg2 to the version which is shipped by AlmaLinux 9 (from
+# package python3.12-psycopg2)
+psycopg2==2.9.6

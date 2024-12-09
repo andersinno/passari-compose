@@ -80,7 +80,7 @@ RUN pipx install pip-tools
 COPY ./passari /app/passari
 COPY ./passari-workflow /app/passari-workflow
 COPY ./passari-web-ui /app/passari-web-ui
-COPY ./requirements-fixed.txt /app/
+COPY ./requirements.txt /app/
 
 # Install the local packages in editable mode
 #
@@ -91,13 +91,7 @@ COPY ./requirements-fixed.txt /app/
 # PKG_NAME.egg-info directories in the source directories.
 RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
     pip install --user --no-warn-script-location --no-build-isolation \
-        -e ./passari \
-        -e ./passari-workflow \
-        -e ./passari-web-ui
-
-# Install the pinned requirements to fix issues with the project
-RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
-    pip install --user --no-warn-script-location -r ./requirements-fixed.txt
+        -r requirements.txt
 
 # Copy the config files
 COPY ./passari.toml /etc/passari/config.toml
