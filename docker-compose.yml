@@ -15,7 +15,9 @@ services:
     ports:
       - "127.0.0.1:5000:5000"
     environment:
-      DATABASE_URL: postgres://passari:passari@db/passari
+      PASSARI_WORKFLOW_DB_URL: postgresql://passari:passari@db/passari
+      PASSARI_WORKFLOW_REDIS_HOST: redis
+      PASSARI_WORKFLOW_REDIS_PORT: 6379
     env_file:
       - .env
 

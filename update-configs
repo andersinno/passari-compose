@@ -1,0 +1,13 @@
+#!/bin/sh
+# Update Passari config files
+#
+# The template configs are read from the configs directory and
+# references to environment variable names (e.g. $ENV_VAR or ${ENV_VAR})
+# are replaced with the values from the current environment.
+
+set -e
+
+for x in passari passari-workflow passari-web-ui; do
+    echo "Updating /etc/$x/config.toml"
+    envsubst < configs/$x.toml > /etc/$x/config.toml
+done

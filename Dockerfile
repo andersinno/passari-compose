@@ -93,11 +93,16 @@ RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
     pip install --user --no-warn-script-location --no-build-isolation \
         -r requirements.txt
 
-# Copy the config files
-COPY ./passari.toml /etc/passari/config.toml
-COPY ./passari-workflow.toml /etc/passari-workflow/config.toml
-COPY ./passari-web-ui.toml /etc/passari-web-ui/config.toml
+# Copy the config templates and a script to process them (called from
+# the entrypoint), and create directories for the destination files
+COPY configs ./configs
+COPY update-configs .
+USER root
+RUN cd /etc && \
+    mkdir --mode=0775 passari passari-workflow passari-web-ui && \
+    chgrp appuser passari passari-workflow passari-web-ui
 
-COPY --chown=appuser:appuser docker-entrypoint.sh /usr/local/bin/
+COPY docker-entrypoint.sh .
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+USER appuser
+ENTRYPOINT ["/app/docker-entrypoint.sh"]

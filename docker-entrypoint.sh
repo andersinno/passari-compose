@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+
+./update-configs
+
 # Apply migrations (passari-workflow)
 if [[ "$WORKFLOW_APPLY_MIGRATIONS" = "1" ]]; then
     echo "Applying migrations"
