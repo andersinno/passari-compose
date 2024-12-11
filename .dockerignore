@@ -1,0 +1,24 @@
+# Docker related files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Python cache files etc.
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/__pycache__
+**/.eggs
+**/*.egg-info
+**/dist
+**/build
+
+**/_build
+
+# Temporary/backup files etc.
+**/*.orig
+**/*.rej
+**/*.swp
+**/*.bak
+**/*.tmp
+**/*~

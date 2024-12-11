@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+infile=${1:?Give a name of requirements*.in file as first argument}
+txtfile=${infile%.in}.txt
+
+# If pip-compile is in PATH use it, otherwise run through pipx
+pip_compile=(pip-compile)
+if ! type ${pip_compile[0]} &>/dev/null; then
+    pip_compile=(pipx run --spec pip-tools pip-compile)
+fi
+
+echo -n "Generating $txtfile from $infile..."
+
+"${pip_compile[@]}" --quiet --strip-extras "$infile"
+
+# Post-process the output file with sed:
+#
+# 1. Fix the absolute path file URLs to relative paths.
+# 2. Change the line having the "pip-compile" command
+cwd_url="file://$(pwd)"
+sed -i "
+    s%^.* @ $cwd_url%.%;
+    s%$cwd_url%.%g;
+    s|^\(# *\)pip-compile.*|\1$0${1:+ }$*|;
+" "$txtfile"
+
+echo "done"
