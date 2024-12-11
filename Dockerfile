@@ -67,20 +67,20 @@ USER appuser
 ENV PYTHONPYCACHEPREFIX=/home/appuser/.cache/pycache
 ENV PATH="$PATH:/home/appuser/.local/bin"
 
-# Set a working directory for the application
-WORKDIR /app
-
 # Install pip-tools
 RUN pipx install pip-tools
+
+# Set a working directory for the application
+WORKDIR /app
 
 # Copy the sources
 #
 # Note: The dirs are intentionally created as root.  There should be no
 # need to write to them during the build process.
-COPY ./passari /app/passari
-COPY ./passari-workflow /app/passari-workflow
-COPY ./passari-web-ui /app/passari-web-ui
-COPY ./requirements.txt /app/
+COPY passari ./passari
+COPY passari-workflow ./passari-workflow
+COPY passari-web-ui ./passari-web-ui
+COPY requirements.txt .
 
 # Install the local packages in editable mode
 #
