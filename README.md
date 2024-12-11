@@ -41,7 +41,7 @@ information about the configurations for each component.
 To run the migrations automatically, set the following env variable:
 
 ```
-APPLY_MIGRATIONS=1
+WORKFLOW_APPLY_MIGRATIONS=1
 ```
 
 ## passari-web-ui
