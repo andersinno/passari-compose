@@ -5,31 +5,31 @@
 # 30 = warning
 # 20 = info
 # 10 = debug
-level=10
+level=$PASSARI_LOG_LEVEL
 
 [mets]
 # Organization name used in PREMIS events
-organization_name='ORGANIZATION NAME HERE'
+organization_name='$PASSARI_METS_ORG_NAME'
 # Contract ID used for DPRES REST API and in PREMIS events
-contract_id='12345678-f00d-d00f-a4b7-010a184befdd'
+contract_id='$PASSARI_METS_CONTRACT_ID'
 
 [sign]
 # Path to the key used to sign the METS
-key_path='/usr/local/lib/python3.12/site-packages/passari/data/test_rsa_keys.crt'
+key_path='$PASSARI_METS_SIGN_KEY_PATH'
 
 [ssh]
-host=''
-port='22'
-username=''
-private_key=''
-home_path=''
+host='$PASSARI_PAS_SFTP_HOST'
+port='$PASSARI_PAS_SFTP_PORT'
+username='$PASSARI_PAS_SFTP_USERNAME'
+private_key='$PASSARI_PAS_SFTP_PRIVATE_KEY'
+home_path='$PASSARI_PAS_SFTP_HOME_PATH'
 
 [museumplus]
 # MuseumPlus instance URL ending with '/ria-ws/application'
-url='https://mpfinlandfhatest.zetcom.app/ria-ws/application'
+url='$PASSARI_MUSEUMPLUS_API_URL'
 
 # Template ID used for generating the LIDO XML report
-lido_report_id='45005'
+lido_report_id='$PASSARI_MUSEUMPLUS_LIDO_REPORT_ID'
 
 # Field used for storing the preservation history for an object
 # Needs to have the 'Clob' data type
@@ -38,8 +38,8 @@ object_preservation_field_type='dataField'
 
 # Whether to update MuseumPlus log field with preservation events
 add_log_entries=true
-username=''
-password=''
+username='$PASSARI_MUSEUMPLUS_USERNAME'
+password='$PASSARI_MUSEUMPLUS_PASSWORD'
 
 [dpres]
 # Virtualenv settings for dpres-siptools.
