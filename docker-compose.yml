@@ -19,6 +19,7 @@ services:
       PASSARI_WORKFLOW_REDIS_HOST: redis
       PASSARI_WORKFLOW_REDIS_PORT: 6379
     env_file:
+      - .env.defaults
       - .env
 
   db:

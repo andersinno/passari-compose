@@ -19,7 +19,7 @@ git submodule update --init
 
 ### 2. Build and Start the Containers
 
-- Copy `.env.example` to `.env` and configure the environment variables.
+- Copy `.env.defaults` to `.env` and configure the environment variables.
 - Run `docker compose up`
 
 ## Configuration Files
