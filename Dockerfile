@@ -1,4 +1,5 @@
-FROM almalinux:9
+###############################################################################
+FROM almalinux:9 AS base
 
 ENV LANG=C.UTF-8
 ENV PYTHONUNBUFFERED=1
@@ -61,6 +62,19 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/dnf \
 # Install pipx
 RUN pip install --root-user-action=ignore pipx
 
+
+###############################################################################
+FROM base as wheels
+RUN --mount=type=cache,sharing=locked,target=/var/cache/dnf \
+    dnf install -y python3.12-devel swig  # For building M2Crypto
+COPY requirements-siptools.txt /
+RUN mkdir wheels
+WORKDIR /wheels
+RUN pip wheel -r ../requirements-siptools.txt
+
+###############################################################################
+FROM base as app
+
 # Add appuser (with uid 1000) and change to it
 RUN useradd -d /home/appuser -m -s /bin/bash -u 1000 appuser
 USER appuser
@@ -84,14 +98,16 @@ COPY requirements.txt .
 
 # Install the local packages in editable mode
 #
-# The --no-warn-script-location flag is used to suppress the warning
-# about the scripts being installed outside the PATH (to ~/.local/bin).
-#
 # The --no-build-isolation flag is used so that pip does not create the
 # PKG_NAME.egg-info directories in the source directories.
 RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
-    pip install --user --no-warn-script-location --no-build-isolation \
-        -r requirements.txt
+    pip install --user --no-build-isolation -r requirements.txt
+
+# Install siptools
+COPY --from=wheels /wheels /siptools-wheels
+COPY requirements-siptools.txt .
+RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
+    pip install --user --no-index -f /siptools-wheels -r requirements-siptools.txt
 
 # Copy the config templates and a script to process them (called from
 # the entrypoint), and create directories for the destination files

@@ -24,7 +24,7 @@ ps:
 build:
 	docker-compose build
 
-requirements: requirements.txt
+requirements: requirements.txt requirements-siptools.txt
 
 %.txt: %.in
 	./compile-requirements $<
