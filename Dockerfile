@@ -84,14 +84,10 @@ COPY requirements.txt .
 
 # Install the local packages in editable mode
 #
-# The --no-warn-script-location flag is used to suppress the warning
-# about the scripts being installed outside the PATH (to ~/.local/bin).
-#
 # The --no-build-isolation flag is used so that pip does not create the
 # PKG_NAME.egg-info directories in the source directories.
 RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
-    pip install --user --no-warn-script-location --no-build-isolation \
-        -r requirements.txt
+    pip install --user --no-build-isolation -r requirements.txt
 
 # Copy the config templates and a script to process them (called from
 # the entrypoint), and create directories for the destination files
