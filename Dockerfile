@@ -121,4 +121,8 @@ RUN cd /etc && \
 COPY docker-entrypoint.sh .
 
 USER appuser
+
+# Create workspace directory for Passari data files
+RUN mkdir /home/appuser/MuseumObjects
+
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
