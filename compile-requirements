@@ -9,6 +9,23 @@ if ! type ${pip_compile[0]} &>/dev/null; then
     pip_compile=(pipx run --spec pip-tools pip-compile)
 fi
 
+# Generate constraint files from requirements*.txt files if needed
+if grep -q "^-c" "$infile"; then
+    # Setup a trap for removing temporary files on exit
+    tmp_files=()
+    remove_tmp_files() {
+        rm -f "${tmp_files[@]}"
+    }
+    trap remove_tmp_files EXIT
+
+    # Generate a constraint file for each "-c *.constraints" line
+    mapfile -t reqs < <(sed -nE 's/^-c *(.*).constraints.*/\1/p' < "$infile")
+    for reqfile in "${reqs[@]}"; do
+        tmp_files+=("$reqfile.constraints")
+        grep -vE '^( *#|-e)' < "$reqfile" > "$reqfile.constraints"
+    done
+fi
+
 echo -n "Generating $txtfile from $infile..."
 
 "${pip_compile[@]}" --quiet --strip-extras "$infile"
