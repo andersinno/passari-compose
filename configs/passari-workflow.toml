@@ -1,12 +1,13 @@
 [db]
-# PostgreSQL server credentials
-url='$PASSARI_WORKFLOW_DB_URL'
+# PostgreSQL server credentials can be specified here, but if not, they
+# are taken from PASSARI_WORKFLOW_DB_URL or DATABASE_URL env variable.
+#url='$PASSARI_WORKFLOW_DB_URL'
 
 [redis]
-# Redis server credentials
-host='$PASSARI_WORKFLOW_REDIS_HOST'
-port='$PASSARI_WORKFLOW_REDIS_PORT'
-password='$PASSARI_WORKFLOW_REDIS_PASSWORD'
+# Redis server credentials can be specified here, but if not, they are
+# taken from PASSARI_WORKFLOW_REDIS_URL or REDIS_URL env variable. The
+# latter is also used by RQ by default.
+#url='$PASSARI_WORKFLOW_REDIS_URL'
 
 [package]
 # Directory used for packages under processing.
