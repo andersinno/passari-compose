@@ -89,6 +89,12 @@ RUN pipx install pip-tools
 # Set a working directory for the application
 WORKDIR /app
 
+# Install siptools
+COPY --from=wheels /wheels /siptools-wheels
+COPY requirements-siptools.txt .
+RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
+    pip install --user --no-index -f /siptools-wheels -r requirements-siptools.txt
+
 # Copy the sources
 #
 # Note: The dirs are intentionally created as root.  There should be no
@@ -104,12 +110,6 @@ COPY requirements.txt .
 # PKG_NAME.egg-info directories in the source directories.
 RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
     pip install --user --no-build-isolation -r requirements.txt
-
-# Install siptools
-COPY --from=wheels /wheels /siptools-wheels
-COPY requirements-siptools.txt .
-RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
-    pip install --user --no-index -f /siptools-wheels -r requirements-siptools.txt
 
 # Copy the config templates and a script to process them (called from
 # the entrypoint), and create directories for the destination files
