@@ -37,8 +37,6 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/dnf \
     libxslt-devel \
     postgresql \
     postgresql-devel \
-    postgresql-server \
-    postgresql-contrib \
     libpq-devel \
     wget \
     dnf-plugins-core
