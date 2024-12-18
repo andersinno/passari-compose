@@ -125,9 +125,16 @@ RUN cd /etc && \
 
 COPY docker-entrypoint.sh .
 
-USER appuser
+# Data directory for museum object workspace and archived objects
+RUN \
+    mkdir -p /data/objects /data/archive && \
+    chown -R appuser:appuser /data && \
+    ln -s /data/objects /home/appuser/MuseumObjects && \
+    ln -s /data/archive /home/appuser/MuseumObjectArchive && \
+    chown -h appuser:appuser /home/appuser/MuseumObjects && \
+    chown -h appuser:appuser /home/appuser/MuseumObjectArchive
 
-# Create workspace directory for Passari data files
-RUN mkdir /home/appuser/MuseumObjects
+# Run as appuser by default
+USER appuser
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
