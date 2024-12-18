@@ -33,7 +33,7 @@ lido_report_id='$PASSARI_MUSEUMPLUS_LIDO_REPORT_ID'
 
 # Field used for storing the preservation history for an object
 # Needs to have the 'Clob' data type
-object_preservation_field_name=''
+object_preservation_field_name='ObjPASLog01Clb'
 object_preservation_field_type='dataField'
 
 # Whether to update MuseumPlus log field with preservation events
