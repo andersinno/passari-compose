@@ -111,6 +111,11 @@ COPY requirements.txt .
 RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
     pip install --user --no-build-isolation -r requirements.txt
 
+# Install development requirements
+COPY requirements-dev.txt .
+RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
+    pip install --user --no-build-isolation -r requirements-dev.txt
+
 # Copy the config templates and a script to process them (called from
 # the entrypoint), and create directories for the destination files
 COPY configs ./configs
