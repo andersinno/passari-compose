@@ -1,0 +1,4 @@
+-c requirements.txt.constraints
+-e ./passari[dev]
+-e ./passari-workflow[dev]
+-e ./passari-web-ui[dev]
