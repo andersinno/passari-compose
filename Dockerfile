@@ -64,7 +64,7 @@ RUN pip install --root-user-action=ignore pipx
 
 
 ###############################################################################
-FROM base as wheels
+FROM base AS wheels
 RUN --mount=type=cache,sharing=locked,target=/var/cache/dnf \
     dnf install -y python3.12-devel swig  # For building M2Crypto
 COPY requirements-siptools.txt /
@@ -73,13 +73,13 @@ WORKDIR /wheels
 RUN pip wheel -r ../requirements-siptools.txt
 
 ###############################################################################
-FROM base as app
+FROM base AS app
 
 # Add appuser (with uid 1000) and change to it
 RUN useradd -d /home/appuser -m -s /bin/bash -u 1000 appuser
 USER appuser
 ENV PYTHONPYCACHEPREFIX=/home/appuser/.cache/pycache
-ENV PATH="$PATH:/home/appuser/.local/bin"
+ENV PATH="/home/appuser/.local/bin:$PATH"
 
 # Install pip-tools
 RUN pipx install pip-tools
