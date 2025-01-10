@@ -66,11 +66,11 @@ cffi==1.17.1
     #   -c /app/requirements.txt.constraints
     #   cryptography
     #   pynacl
-charset-normalizer==3.4.0
+charset-normalizer==3.4.1
     # via
     #   -c /app/requirements.txt.constraints
     #   requests
-click==8.1.7
+click==8.1.8
     # via
     #   -c /app/requirements.txt.constraints
     #   flask
@@ -168,12 +168,12 @@ itsdangerous==2.2.0
     #   flask
     #   flask-security-too
     #   flask-wtf
-jinja2==3.1.4
+jinja2==3.1.5
     # via
     #   -c /app/requirements.txt.constraints
     #   flask
     #   flask-babelex
-lupa==2.2
+lupa==2.3
     # via fakeredis
 lxml==5.3.0
     # via
@@ -206,7 +206,7 @@ passlib==1.7.4
     # via
     #   -c /app/requirements.txt.constraints
     #   flask-security-too
-pillow==11.0.0
+pillow==11.1.0
     # via passari
 pluggy==1.5.0
     # via pytest
@@ -234,7 +234,7 @@ pytest==8.3.4
     #   passari-web-ui
     #   passari-workflow
     #   pytest-asyncio
-pytest-asyncio==0.25.0
+pytest-asyncio==0.25.2
     # via
     #   passari
     #   passari-workflow
@@ -309,7 +309,7 @@ typing-extensions==4.12.2
     # via
     #   -c /app/requirements.txt.constraints
     #   alembic
-urllib3==2.2.3
+urllib3==2.3.0
     # via
     #   -c /app/requirements.txt.constraints
     #   requests
