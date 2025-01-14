@@ -1,0 +1,14 @@
+#!/bin/sh
+# Build Passari wheels
+
+set -e
+
+pip install build
+
+mkdir -p wheels
+
+for i in passari passari-workflow passari-web-ui; do
+    # The SOURCE_DATE_EPOCH variable makes the dates inside the wheel
+    # ZIP files reproducible so that the whl files are reproducible
+    SOURCE_DATE_EPOCH=0 python -m build --outdir ./wheels --wheel ./$i
+done
