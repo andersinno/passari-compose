@@ -10,9 +10,7 @@ fi
 
 if [[ "$WORKFLOW_APPLY_MIGRATIONS" = "1" ]]; then
     echo "Applying migrations"
-    cd passari-workflow
-    alembic upgrade head
-    cd ..
+    pas-db-migrate upgrade head
 fi
 
 if [[ "$WEB_UI_CREATE_DB" = "1" ]]; then
