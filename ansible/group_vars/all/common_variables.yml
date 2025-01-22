@@ -108,7 +108,7 @@ sip_sign_key_path: "{{passari_home}}/sip_sign_key.pem"
 
 # Username and password used to login to MuseumPlus API
 museumplus_user: "testuser"
-passarisword: "testpassword"
+museumplus_password: "testpassword"
 
 
 ####
