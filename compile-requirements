@@ -1,7 +1,29 @@
 #!/bin/bash
 set -e
-infile=${1:?Give a name of requirements*.in file as first argument}
-txtfile=${infile%.in}.txt
+
+called_as=("$0" "$@")
+pip_compile_args=(--quiet --strip-extras --no-emit-find-links --allow-unsafe)
+
+while [[ $1 == -* ]]; do
+    case "$1" in
+        -H|--hashes)
+            pip_compile_args+=(--generate-hashes --reuse-hashes)
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+infile_path=${1:?Give a name of requirements*.in file as an argument}
+txtfile_path=${infile_path%.in}.txt
+
+# Change to the dir of the infile_path and use basenames for the files
+cd "$(dirname "$infile_path")"
+infile=${infile_path##*/}
+txtfile=${txtfile_path##*/}
 
 # If pip-compile is in PATH use it, otherwise run through pipx
 pip_compile=(pip-compile)
@@ -26,9 +48,9 @@ if grep -q "^-c" "$infile"; then
     done
 fi
 
-echo -n "Generating $txtfile from $infile..."
+echo -n "Generating $txtfile_path from $infile_path..."
 
-"${pip_compile[@]}" --quiet --strip-extras "$infile"
+"${pip_compile[@]}" "${pip_compile_args[@]}" "$infile"
 
 # Post-process the output file with sed:
 #
@@ -38,7 +60,7 @@ cwd_url="\(file://\)\?$PWD\(/\.\)\?"
 sed -i "
     s%^.* @ $cwd_url%.%;
     s%$cwd_url%.%g;
-    s|^\(# *\)pip-compile.*|\1$0${1:+ }$*|;
+    s|^\(# *\)pip-compile.*|\1${called_as[*]}|;
 " "$txtfile"
 
 echo "done"
