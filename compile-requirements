@@ -34,7 +34,7 @@ echo -n "Generating $txtfile from $infile..."
 #
 # 1. Fix the absolute path file URLs to relative paths.
 # 2. Change the line having the "pip-compile" command
-cwd_url="file://$(pwd)"
+cwd_url="\(file://\)\?$PWD\(/\.\)\?"
 sed -i "
     s%^.* @ $cwd_url%.%;
     s%$cwd_url%.%g;
