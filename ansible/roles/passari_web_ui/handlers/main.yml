@@ -12,12 +12,12 @@
   listen: "reload nginx config"
 
 - name: restart nginx
-  service:
+  systemd_service:
     name: nginx
     state: restarted
   listen: "reload nginx config"
 
 - name: restart uwsgi
-  service:
+  systemd_service:
     name: uwsgi
     state: restarted

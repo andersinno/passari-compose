@@ -1,35 +1,5 @@
 - import_playbook: site-common.yml
-
-- name: Install database components
-  hosts: database
-  roles:
-    - passari_database
-
-- name: Install worker components
-  hosts: worker
-  roles:
-    - validators
-    - passari_workflow
-
-- name: Install web UI components
-  hosts: web_ui
-  roles:
-    - nginx
-    - uwsgi
-    - letsencrypt
-    - passari_web_ui
-
-- name: Install backup components
-  hosts: backup
-  roles:
-    - passari_backup
-
-- name: Install CI testing tools
-  hosts: ci_test
-  roles:
-    - validators
-
-- name: Install E2E test components
-  hosts: e2e
-  roles:
-    - passari_e2e
+- import_playbook: site-database.yml
+- import_playbook: site-worker.yml
+#- import_playbook: site-web.yml
+# - import_playbook: site-backup.yml

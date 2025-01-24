@@ -1,0 +1,3 @@
+-f ./wheels
+-c requirements.txt.constraints
+passari-web-ui

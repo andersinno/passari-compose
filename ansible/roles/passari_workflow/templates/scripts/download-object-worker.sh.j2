@@ -1,2 +1,2 @@
 #!/bin/bash
-exec ./run-venv.sh rq worker -c worker_config --name download-object-$(hostname)-$1 download_object
+exec {{passari_workflow_venv_dir}}/bin/rq worker -c worker_config --name download-object-$(hostname)-$1 download_object

@@ -1,0 +1,5 @@
+dependencies:
+  - role: passari_packages
+    tags: passari-packages
+  - role: passari_user
+    tags: passari-user

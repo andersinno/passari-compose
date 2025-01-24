@@ -4,9 +4,9 @@ After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory={{passari_workflow_install_path}}
+WorkingDirectory={{passari_home}}
 Environment=LANG=en_US.UTF-8
-ExecStart={{passari_workflow_install_path}}/run-venv.sh sync-attachments --save-progress
+ExecStart={{passari_workflow_venv_dir}}/bin/sync-attachments --save-progress
 Restart=on-failure
 User={{passari_user}}
 Group={{passari_user}}

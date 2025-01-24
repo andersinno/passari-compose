@@ -1,0 +1,4 @@
+- name: Create Passari user
+  user:
+    name: "{{passari_user}}"
+    home: "{{passari_home}}"

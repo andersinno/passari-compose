@@ -5,9 +5,6 @@
   loop:
     - uwsgi
     - uwsgi-plugin-python36
-  tags:
-    - passari-web-ui
-    - uwsgi
 
 - name: Create /var/uwsgi for sockets
   file:
@@ -16,38 +13,24 @@
     owner: uwsgi
     group: nginx
     mode: "u=rwx,g=rx,o="
-  tags:
-    - passari-web-ui
-    - uwsgi
 
 - name: Give nginx access to the uWSGI sockets
   sefcontext:
     target: '/var/uwsgi(/.*)?'
     setype: httpd_var_run_t
     state: present
-  tags:
-    - passari-web-ui
-    - uwsgi
 
 - name: Apply new SELinux file context
   command: restorecon -irv /var/uwsgi
-  tags:
-    - passari-web-ui
-    - uwsgi
 
 - name: Replace uWSGI service file
   template:
     src: "templates/uwsgi.service.j2"
     dest: "/usr/lib/systemd/system/uwsgi.service"
-  tags:
-    - passari-web-ui
-    - uwsgi
 
 - name: Reload systemd daemon
-  command: systemctl daemon-reload
-  tags:
-    - passari-web-ui
-    - uwsgi
+  systemd:
+    daemon_reload: yes
 
 # This is required because the 'uwsgi' user will first chdir into the
 # directory and then change the uid and gid to 'passari'

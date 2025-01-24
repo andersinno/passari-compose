@@ -1,3 +1,19 @@
----
+- name: Create or update .pub file for SIP submission SSH key
+  shell:
+    cmd: "test ! -e {{item}} || ssh-keygen -y -f {{item}} > {{item}}.pub"
+    chdir: "{{dpres_ssh_key_path | dirname}}"
+  become_user: "{{passari_user}}"
+  vars:
+    item: "{{dpres_ssh_key_path | basename}}"
+
+- name: Create or update .pub file for SIP signing key
+  shell:
+    cmd: "openssl x509 -in {{item}} -out {{item}}.pub"
+    chdir: "{{sip_sign_key_path | dirname}}"
+  become_user: "{{passari_user}}"
+  vars:
+    item: "{{sip_sign_key_path | basename}}"
+
 - name: reload systemd
-  command: systemctl daemon-reload
+  systemd:
+    daemon_reload: yes

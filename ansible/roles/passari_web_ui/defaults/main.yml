@@ -1,5 +1,15 @@
----
-web_ui_socket_path: "/var/uwsgi/passari_web_ui.sock"
+passari_web_ui_venv_dir: "{{passari_home}}/venvs/passari-web-ui"
+
+web_ui_socket_path: "/run/passari_web_ui.sock"
 web_ui_static_root: "/usr/share/nginx/passari_web_ui_static"
 
-web_ui_secret_key: "test key DO NOT USE IN PRODUCTION"
+# web_ui_secret_key: "test key DO NOT USE IN PRODUCTION"
+
+museumplus_ui_url: "{{museumplus_url}}/v"
+
+# Key and salt used to encrypt web UI cookies and password hashes.
+# Use a cryptographically secure method to generate the contents for these
+# fields.
+# Eg. python3 -c "import secrets; print(secrets.token_urlsafe(16))"
+web_ui_secret_key: "{{undef('web_ui_secret_key')}}"
+web_ui_password_salt: "{{undef('web_ui_password_salt')}}"

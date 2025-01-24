@@ -1,0 +1,4 @@
+# Directory where wheel packages are copied to
+passari_packages_dir: "/var/local/passari/packages"
+passari_python_version: "3.12"
+passari_python_executable: "/usr/bin/python{{passari_python_version}}"

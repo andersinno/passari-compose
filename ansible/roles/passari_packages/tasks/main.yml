@@ -1,0 +1,31 @@
+# CRB is needed for swig (at least)
+- name: Enable CodeReady Builder repository (CRB)
+  community.general.dnf_config_manager:
+    name: crb
+    state: enabled
+
+- name: Install packages needed for building Passari Python dependencies
+  dnf:
+    name:
+      - make
+      - automake
+      - gcc
+      - gcc-c++
+      - swig
+      - openssl-devel
+      - libpq-devel
+  tags: [passari-packages-install, install]
+
+- name: Ensure packages directory exists
+  file:
+    dest: "{{passari_packages_dir}}"
+    state: directory
+
+- name: Copy requirements*.txt files and wheels
+  copy:
+    src: "{{item}}"
+    dest: "{{passari_packages_dir}}/{{item}}"
+  with_items:
+    - requirements-workflow.txt
+    - requirements-web-ui.txt
+    - wheels/

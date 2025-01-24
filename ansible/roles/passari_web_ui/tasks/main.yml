@@ -1,66 +1,10 @@
----
-- name: Clone passari-web-ui
-  git:
-    repo: git@museopas-gitlab.northeurope.cloudapp.azure.com:passari/passari-web-ui.git
-    dest: "{{passari_web_ui_install_path}}"
-    version: "{{passari_web_ui_version}}"
-    key_file: "{{passari_home}}/.ssh/id_git_deploy"
-  become_user: "{{passari_user}}"
-  tags: passari-web-ui
-
 - name: Install passari-web-ui
   pip:
-    chdir: "{{passari_web_ui_install_path}}"
-    virtualenv: ".venv"
-    virtualenv_python: python3.6
-    name: .
+    chdir: "{{passari_packages_dir}}"
+    virtualenv: "{{passari_web_ui_venv_dir}}"
+    extra_args: "--find-links={{passari_packages_dir}}/wheels"
+    requirements: "requirements-web-ui.txt"
   become_user: "{{passari_user}}"
-  tags: passari-web-ui
-
-- name: Install run-venv.sh
-  template:
-    src: "templates/scripts/run-venv.sh.j2"
-    dest: "{{passari_web_ui_install_path}}/run-venv.sh"
-    mode: u=rwx,g=rx,o=rx
-  become_user: "{{passari_user}}"
-  tags: passari-web-ui
-
-# passari-workflow and passari are required
-- name: Clone passari-workflow
-  git:
-    repo: git@museopas-gitlab.northeurope.cloudapp.azure.com:passari/passari-workflow.git
-    dest: "{{passari_workflow_install_path}}"
-    version: "{{passari_workflow_version}}"
-    key_file: "{{passari_home}}/.ssh/id_git_deploy"
-  become_user: "{{passari_user}}"
-  tags: passari-web-ui
-
-- name: Install passari-workflow
-  pip:
-    chdir: "{{passari_workflow_install_path}}"
-    virtualenv: "{{passari_web_ui_install_path}}/.venv"
-    virtualenv_python: python3.6
-    name: .
-  become_user: "{{passari_user}}"
-  tags: passari-web-ui
-
-- name: Clone passari
-  git:
-    repo: git@museopas-gitlab.northeurope.cloudapp.azure.com:passari/passari.git
-    dest: "{{passari_install_path}}"
-    version: "{{passari_version}}"
-    key_file: "{{passari_home}}/.ssh/id_git_deploy"
-  become_user: "{{passari_user}}"
-  tags: passari-web-ui
-
-- name: Install passari
-  pip:
-    chdir: "{{passari_install_path}}"
-    virtualenv: "{{passari_web_ui_install_path}}/.venv"
-    virtualenv_python: python3.6
-    name: .
-  become_user: "{{passari_user}}"
-  tags: passari-web-ui
 
 - name: Create passari-web-ui configuration directory
   file:
@@ -119,9 +63,9 @@
   shell: "mkdir -p {{item[1]}}; cp -r {{item[0]}}/* {{item[1]}}"
   become_user: "{{passari_user}}"
   loop:
-    - ["{{passari_web_ui_install_path}}/src/passari_web_ui/static",
+    - ["{{passari_web_ui_venv_dir}}/lib/*/*/passari_web_ui/static",
        "{{web_ui_static_root}}/static"]
-    - ["{{passari_web_ui_install_path}}/src/passari_web_ui/ui/static",
+    - ["{{passari_web_ui_venv_dir}}/lib/*/*/passari_web_ui/ui/static"
        "{{web_ui_static_root}}/web-ui/static"]
   tags: passari-web-ui
 
@@ -153,22 +97,23 @@
   tags: passari-web-ui
 
 - name: Enable and start nginx
-  service:
+  systemd_service:
     name: nginx
     state: started
     enabled: true
   tags: passari-web-ui
 
 - name: Reload uwsgi
-  service:
+  systemd_service:
     name: uwsgi
     state: restarted
     enabled: true
   tags: passari-web-ui
 
 - name: Create authentication database tables
-  command: "./run-venv.sh flask create-db"
-  args:
-    chdir: "{{passari_web_ui_install_path}}"
+  command:
+    cmd: >-
+      {{passari_web_ui_venv_dir}}/bin/flask --app passari_web_ui.app create-db
+    chdir: "{{passari_home}}"
   become_user: "{{passari_user}}"
   tags: passari-web-ui

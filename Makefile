@@ -1,12 +1,12 @@
 .PHONY: \
 	up down start stop restart logs ps build \
 	clean-wheels wheels ansible-wheels copy-wheels-to-ansible \
-	requirements
+	ansible-requirements requirements
 
 # Destination directories for the ansible-wheels
-ANS_ROLES = ansible/roles
-DESTDIR_ANS_WHEELS_BASE = $(ANS_ROLES)/passari_workflow/files/
-DESTDIR_ANS_WHEELS_WEB = $(ANS_ROLES)/passari_web_ui/files/
+ANSIBLE_ROLES = ansible/roles
+DESTDIR_ANSISBLE_PACKAGES = $(ANSIBLE_ROLES)/passari_packages/files
+DESTDIR_ANSISBLE_WHEELS = $(DESTDIR_ANSISBLE_PACKAGES)/wheels
 
 up:
 	docker-compose up
@@ -36,15 +36,23 @@ clean-wheels:
 	rm -fr wheels
 
 wheels:
-	docker-compose up -d web
-	docker-compose exec web ./build-wheels
+	./build-wheels
 
 ansible-wheels: clean-wheels wheels copy-wheels-to-ansible
 
 copy-wheels-to-ansible:
-	cp -vf wheels/passari-*.whl $(DESTDIR_ANS_WHEELS_BASE)
-	cp -vf wheels/passari_workflow-*.whl $(DESTDIR_ANS_WHEELS_BASE)
-	cp -vf wheels/passari_web_ui-*.whl $(DESTDIR_ANS_WHEELS_WEB)
+	rm -fr $(DESTDIR_ANSISBLE_WHEELS)
+	mkdir -p $(DESTDIR_ANSISBLE_WHEELS)
+	cp -vf wheels/*.whl $(DESTDIR_ANSISBLE_WHEELS)/
+
+ansible-requirements: requirements.txt requirements-siptools.txt
+	rm -f $(DESTDIR_ANSISBLE_PACKAGES)/requirements*.txt
+	cp -vf requirements.txt requirements-siptools.txt \
+		$(DESTDIR_ANSISBLE_PACKAGES)/
+	./compile-requirements --hashes \
+		$(DESTDIR_ANSISBLE_PACKAGES)/requirements-workflow.in
+	./compile-requirements --hashes \
+		$(DESTDIR_ANSISBLE_PACKAGES)/requirements-web-ui.in
 
 requirements: requirements.txt requirements-siptools.txt requirements-dev.txt
 

@@ -1,3 +1,2 @@
----
 enable_letsencrypt: false
-admin_email: null
+letsencrypt_admin_email: "{{undef('Admin email address for Let's Encrypt')}}"

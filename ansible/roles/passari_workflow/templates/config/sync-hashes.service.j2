@@ -4,9 +4,9 @@ After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory={{passari_workflow_install_path}}
+WorkingDirectory={{passari_home}}
 Environment=LANG=en_US.UTF-8
-ExecStart={{passari_workflow_install_path}}/run-venv.sh sync-hashes
+ExecStart={{passari_workflow_venv_dir}}/bin/sync-hashes
 User={{passari_user}}
 Group={{passari_user}}
 

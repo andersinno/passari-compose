@@ -1,0 +1,140 @@
+passari_workflow_venv_dir: "{{passari_home}}/venvs/passari-workflow"
+
+# Package dir should be located on a different file system than the
+# root filesystem with PostgreSQL and Redis. Otherwise an "out of disk space"
+# can cause unexpected behavior, since we can't tell how large the files
+# in MuseumPlus are beforehand and may accidentally fill the disk.
+workflow_package_dir: "{{passari_home}}/MuseumObjects"
+
+# Archive directory is only used for storing archived log files and
+# preservation reports, and the logs are only read when checking specific
+# SIPs through the web UI. Since this directory is accessed infrequently
+# compared to the workflow package directory, it is recommended to use
+# a storage method optimized for low read loads.
+# Eg. Azure Files could be more ideal for this scenario
+# instead of an ordinary file system
+workflow_archive_dir: "{{passari_home}}/MuseumArchive"
+
+redis_host: "{{undef('redis_host')}}"
+redis_port: 6379
+redis_db: 0
+redis_password: "{{undef('redis_password')}}"
+redis_url: "redis://:{{redis_password}}@{{redis_host}}:{{redis_port}}/{{redis_db}}"
+
+db_url: "{{undef('db_url')}}"
+
+# Finland's Digital Preservation service uses two types of keys for interfacing
+# with the service. See this page for details (in Finnish):
+# http://digitalpreservation.fi/specifications/ohjeita-kayttoonotosta
+
+# SSH key used for uploading SIPs. This *must* be a RSA key!
+# Replace with the content of the SSH key in plain text.
+# The content starts with the marker "-----BEGIN OPENSSH PRIVATE KEY-----"
+sip_submit_key: "{{undef('sip_submit_key')}}"
+
+# RSA key used for signing SIPs
+# Replace with the content of the SIP signing key in plain text.
+# The content starts with the marker "-----BEGIN PRIVATE KEY-----" and
+# contains a "-----BEGIN CERTIFICATE-----" section
+sip_sign_key: "{{undef('sip_sign_key')}}"
+
+sip_sign_key_path: "{{passari_home}}/sip_sign_key.pem"
+
+# Log level for Passari
+# (50 = critical, 40 = error, 30 = warning, 20 = info, 10 = debug)
+passari_log_level: 20
+
+# Connection used to upload SIPs to the DPRES service (aka PAS service)
+dpres_ssh_host: "{{undef('dpres_ssh_host')}}"
+dpres_ssh_user: "{{undef('dpres_ssh_user')}}"
+dpres_ssh_port: 22
+dpres_ssh_root_path: "/"
+dpres_ssh_key_path: "{{passari_home}}/.ssh/id_sip_submit"
+
+# Contract ID used for PREMIS events and DPRES REST API
+# In UUID format, e.g. "12345678-f00d-d00f-a4b7-010a184befdd"
+dpres_contract_id: "{{undef('dpres_contract_id')}}"
+
+# MuseumPlus API
+museumplus_user: "{{undef('museumplus_user')}}"
+museumplus_password: "{{undef('museumplus_password')}}"
+museumplus_api_url: "{{museumplus_url}}/ria-ws/application"
+museumplus_lido_report_id: "45005"
+museumplus_object_preservation_field_name: "ObjPASLog01Clb"
+museumplus_object_preservation_field_type: "dataField"
+
+####
+#### Workflow - MuseumPlus
+####
+
+# Whether to add log entries to the MuseumPlus service
+museumplus_add_log_entries: true
+
+####
+#### Workflow - performance
+####
+# How many workers per task are used
+worker_count:
+  # 'download-object' downloads objects from MuseumPlus.
+  download_object: 1
+  # 'create-sip' validates files and creates SIPs in the workflow package
+  # directory, and is mostly a CPU and IO-bound task.
+  create_sip: 2
+  # 'submit-sip' submits completed SIPs to the DPRES service.
+  submit_sip: 1
+  # 'confirm-sip' downloads the ingest report from the DPRES service
+  # and updates the local database. This is a fairly fast operation.
+  confirm_sip: 1
+
+worker_names: "{{worker_count.keys() | list}}"
+
+####
+#### Workflow - automated tasks
+####
+# Calendar events are accepted as defined in systemd.time.
+#
+# It is recommended to run 'sync-objects' and 'sync-attachments' at different
+# times to ensure not too much load is put on the MuseumPlus instance.
+#
+# Default is to run 'sync-objects' on odd-numbered days and
+# 'sync-attachments' on even-numbered days, both from 8 PM until 4 AM the
+# next day.
+#
+# Multiple runs are required to completely synchronize the objects and
+# attachments from the MuseumPlus service; this might well take a week
+# (or longer!) using the default settings.
+
+# Synchronization tasks cannot be run in parallel, so ensure that each
+# synchronization task is only enabled for one worker.
+enable_sync_objects: false
+enable_sync_attachments: false
+enable_sync_hashes: false
+enable_sync_processed_sips: false
+
+sync_objects_start_date: "*-*-1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31 20:00:00"
+sync_objects_end_date: "*-*-* 04:00:00"
+sync_objects_interval: 259200  # Every 3 days at most, usually 2 days
+
+sync_attachments_start_date: "*-*-2,4,6,8,10,12,14,16,18,20,22,24,26,28,30 20:00:00"
+sync_attachments_end_date: "*-*-* 04:00:00"
+sync_attachments_interval: 259200  # Every 3 days at most, usually 2 days
+
+sync_processed_sips_start_date: "*-*-* *:00:00"
+sync_processed_sips_interval: 3600  # Every 1 hour
+
+# When to synchronize object and attachment hashes retrieved in the
+# previous 'sync-objects' and 'sync-attachments' tasks.
+# This operation is required after both 'sync-objects' and 'sync-attachments'
+# have finished to make objects available for preservation.
+sync_hashes_start_date: "*-*-* 05:00:00"
+sync_hashes_interval: 86400  # Every 24 hours
+
+# When to download objects from MuseumPlus. By default objects are only
+# downloaded from MuseumPlus during off-hours to prevent causing congestion.
+
+# If true, 'download-objects' queue is only active on the given schedule.
+# If false, the queue is always running.
+enable_scheduled_download_objects: true
+
+download_objects_start_date: "*-*-* 20:00:00"
+download_objects_end_date: "*-*-* 04:00:00"

@@ -1,25 +1,8 @@
-[logging]
-# different logging levels:
-# 50 = critical
-# 40 = error
-# 30 = warning
-# 20 = info
-# 10 = debug
-level=30
-
 [db]
-# PostgreSQL server credentials
-user='{{workflow_db_user}}'
-password='{{workflow_db_password}}'
-host='{{ groups['database'] | first | eval_hostname }}'
-port='5432'
-name='{{workflow_db_name}}'
+url='{{db_url}}'
 
 [redis]
-# Redis server credentials
-host='{{ groups['database'] | first | eval_hostname }}'
-port='6379'
-password='{{workflow_redis_password}}'
+url='{{redis_url}}'
 
 [package]
 package_dir='{{workflow_package_dir}}'
