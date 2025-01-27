@@ -1,14 +1,8 @@
 -c requirements.txt.constraints
 
-siptools @ https://github.com/Digital-Preservation-Finland/dpres-siptools/archive/refs/tags/v0.73.zip
-xml-helpers @ https://github.com/Digital-Preservation-Finland/xml-helpers/archive/refs/tags/v0.18.zip
-mets @ https://github.com/Digital-Preservation-Finland/mets/archive/refs/tags/v0.22.zip
-premis @ https://github.com/Digital-Preservation-Finland/premis/archive/refs/tags/v0.30.zip
+dpres-siptools-ng @ https://github.com/Digital-Preservation-Finland/dpres-siptools-ng/archive/refs/tags/v1.0.0.zip
+dpres-mets-builder @ https://github.com/Digital-Preservation-Finland/dpres-mets-builder/archive/refs/tags/v1.0.0.zip
 dpres-signature @ https://github.com/Digital-Preservation-Finland/dpres-signature/archive/refs/tags/v0.18.zip
-nisomix @ https://github.com/Digital-Preservation-Finland/nisomix/archive/refs/tags/v0.17.zip
-addml @ https://github.com/Digital-Preservation-Finland/addml/archive/refs/tags/v0.14.zip
-audiomd @ https://github.com/Digital-Preservation-Finland/audiomd/archive/refs/tags/v0.13.zip
-videomd @ https://github.com/Digital-Preservation-Finland/videomd/archive/refs/tags/v0.12.zip
+file-scraper @ https://github.com/Digital-Preservation-Finland/file-scraper/archive/refs/tags/v0.76.zip
 ffmpeg-python @ https://github.com/Digital-Preservation-Finland/ffmpeg-python/archive/refs/tags/0.2.0.zip
 opf-fido @ https://github.com/Digital-Preservation-Finland/fido/archive/refs/tags/v1.4.0-dpres5.zip
-file-scraper @ https://github.com/Digital-Preservation-Finland/file-scraper/archive/refs/tags/v0.76.zip
