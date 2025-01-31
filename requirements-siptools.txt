@@ -12,14 +12,17 @@ click==8.1.8
     # via
     #   -c /app/requirements.txt.constraints
     #   file-scraper
-    #   siptools
+dpres-mets-builder @ https://github.com/andersinno/dpres-mets-builder/releases/download/v1.0.0/dpres_mets_builder-1.0.0-py3-none-any.whl
+    # via -r requirements-siptools.in
 dpres-signature @ https://github.com/Digital-Preservation-Finland/dpres-signature/archive/refs/tags/v0.18.zip
+    # via -r requirements-siptools.in
+dpres-siptools-ng @ https://github.com/andersinno/dpres-siptools-ng/releases/download/v1.0.0/dpres_siptools_ng-1.0.0-py3-none-any.whl
     # via -r requirements-siptools.in
 ffmpeg-python @ https://github.com/Digital-Preservation-Finland/ffmpeg-python/archive/refs/tags/0.2.0.zip
     # via -r requirements-siptools.in
 file-magic==0.4.1
     # via file-scraper
-file-scraper @ https://github.com/Digital-Preservation-Finland/file-scraper/archive/refs/tags/v0.76.zip
+file-scraper @ https://github.com/Digital-Preservation-Finland/file-scraper/archive/refs/tags/v0.78.zip
     # via -r requirements-siptools.in
 future==1.0.0
     # via ffmpeg-python
@@ -30,11 +33,11 @@ lxml==5.3.0
     #   -c /app/requirements.txt.constraints
     #   addml
     #   audiomd
+    #   dpres-mets-builder
     #   file-scraper
     #   mets
     #   nisomix
     #   premis
-    #   siptools
     #   videomd
     #   xml-helpers
 m2crypto==0.43.0
@@ -63,8 +66,6 @@ python-dateutil==2.9.0.post0
     #   mets
 python-mimeparse==2.0.0
     # via file-scraper
-siptools @ https://github.com/Digital-Preservation-Finland/dpres-siptools/archive/refs/tags/v0.73.zip
-    # via -r requirements-siptools.in
 six==1.17.0
     # via
     #   -c /app/requirements.txt.constraints
