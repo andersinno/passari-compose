@@ -83,7 +83,8 @@ xml-helpers @ https://github.com/Digital-Preservation-Finland/xml-helpers/archiv
     # via -r ./siptools-deps.txt
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==75.8.0
+setuptools==75.8.1
     # via
+    #   -c ./requirements.txt.constraints
     #   jpylyzer
     #   opf-fido

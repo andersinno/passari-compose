@@ -212,3 +212,7 @@ wtforms==3.2.1
     # via flask-wtf
 yarl==1.18.3
     # via aiohttp
+
+# The following packages are considered to be unsafe in a requirements file:
+setuptools==75.8.1
+    # via -r requirements.in

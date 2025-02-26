@@ -19,6 +19,10 @@ werkzeug<3
 # to require flask-babelex and pytz might become unnecessary.
 pytz
 
+# Install setuptools, because flask-security-too imports pkg_resources
+# which is provided by setuptools.  Note: pkg_resources is deprecated.
+setuptools
+
 # Pin psycopg2 to the version which is shipped by AlmaLinux 9 (from
 # package python3.12-psycopg2)
 psycopg2==2.9.6

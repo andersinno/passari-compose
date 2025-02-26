@@ -337,5 +337,7 @@ yarl==1.18.3
     #   aiohttp
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==75.8.0
-    # via sftpserver
+setuptools==75.8.1
+    # via
+    #   -c ./requirements.txt.constraints
+    #   sftpserver
