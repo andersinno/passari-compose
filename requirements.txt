@@ -163,7 +163,7 @@ python-dateutil==2.9.0.post0
     #   passari
 python-redis-lock==4.0.0
     # via passari-workflow
-pytz==2024.2
+pytz==2025.1
     # via -r requirements.in
 redis==5.2.1
     # via
