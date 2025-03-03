@@ -7,3 +7,6 @@
 [submodule "passari-web-ui"]
 	path = passari-web-ui
 	url = ../passari-web-ui
+[submodule "ansible"]
+	path = ansible
+	url = ../passari-ansible
