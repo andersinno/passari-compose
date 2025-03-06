@@ -62,15 +62,9 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/dnf \
 # Install pipx
 RUN pip install --root-user-action=ignore pipx
 
-
-###############################################################################
-FROM base AS wheels
+# Install packages needed to build Python dependencies
 RUN --mount=type=cache,sharing=locked,target=/var/cache/dnf \
     dnf install -y python3.12-devel swig  # For building M2Crypto
-COPY requirements-siptools.txt /
-RUN mkdir wheels
-WORKDIR /wheels
-RUN pip wheel -r ../requirements-siptools.txt
 
 ###############################################################################
 FROM base AS app
@@ -86,12 +80,6 @@ RUN pipx install pip-tools
 
 # Set a working directory for the application
 WORKDIR /app
-
-# Install siptools
-COPY --from=wheels /wheels /siptools-wheels
-COPY requirements-siptools.txt .
-RUN --mount=type=cache,sharing=locked,uid=1000,target=/home/appuser/.cache/pip \
-    pip install --user --no-index -f /siptools-wheels -r requirements-siptools.txt
 
 # Copy the sources
 #
