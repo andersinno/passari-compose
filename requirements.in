@@ -2,7 +2,25 @@
 -e ./passari-workflow
 -e ./passari-web-ui
 
--c ./siptools-deps.txt
+# Siptools requirements
+#
+# These must be listed here, because passari uses dpres-siptools-ng and
+# dpres-mets-builder, and these are required them.  If those packages
+# are pushed to PyPI with proper requirements then this entire section
+# can be removed from here.
+dpres-siptools-ng @ https://github.com/andersinno/dpres-siptools-ng/releases/download/v1.0.0/dpres_siptools_ng-1.0.0-py3-none-any.whl
+dpres-mets-builder @ https://github.com/andersinno/dpres-mets-builder/releases/download/v1.0.0/dpres_mets_builder-1.0.0-py3-none-any.whl
+xml-helpers @ https://github.com/Digital-Preservation-Finland/xml-helpers/archive/refs/tags/v0.18.zip
+mets @ https://github.com/Digital-Preservation-Finland/mets/archive/refs/tags/v0.22.zip
+premis @ https://github.com/Digital-Preservation-Finland/premis/archive/refs/tags/v0.30.zip
+dpres-signature @ https://github.com/Digital-Preservation-Finland/dpres-signature/archive/refs/tags/v0.18.zip
+nisomix @ https://github.com/Digital-Preservation-Finland/nisomix/archive/refs/tags/v0.17.zip
+addml @ https://github.com/Digital-Preservation-Finland/addml/archive/refs/tags/v0.14.zip
+audiomd @ https://github.com/Digital-Preservation-Finland/audiomd/archive/refs/tags/v0.13.zip
+videomd @ https://github.com/Digital-Preservation-Finland/videomd/archive/refs/tags/v0.12.zip
+ffmpeg-python @ https://github.com/Digital-Preservation-Finland/ffmpeg-python/archive/refs/tags/0.2.0.zip
+opf-fido @ https://github.com/Digital-Preservation-Finland/fido/archive/refs/tags/v1.4.0-dpres5.zip
+file-scraper @ https://github.com/Digital-Preservation-Finland/file-scraper/archive/refs/tags/v0.78.zip
 
 # Limit upper version of some requirements, because the code doesn't
 # work with the newest versions (yet)
@@ -13,11 +31,18 @@ sqlalchemy<2
 rq-dashboard<0.6.2
 werkzeug<3
 
+# Install premis, because dpres-mets-builder requires it
+premis
+
 # Install pytz, because flask-security-too 3.4 requires flask-babelex
 # and flask-babelex uses pytz even though it doesn't list it as a
 # requirement.  NOTE: Newer flask-security-too (e.g. 5.5.2) doesn't seem
 # to require flask-babelex and pytz might become unnecessary.
 pytz
+
+# Install setuptools, because flask-security-too imports pkg_resources
+# which is provided by setuptools.  Note: pkg_resources is deprecated.
+setuptools
 
 # Pin psycopg2 to the version which is shipped by AlmaLinux 9 (from
 # package python3.12-psycopg2)

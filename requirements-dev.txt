@@ -216,7 +216,9 @@ passlib==1.7.4
     #   -c ./requirements.txt.constraints
     #   flask-security-too
 pillow==11.1.0
-    # via passari
+    # via
+    #   -c ./requirements.txt.constraints
+    #   passari
 pluggy==1.5.0
     # via pytest
 propcache==0.2.1
@@ -337,4 +339,7 @@ yarl==1.18.3
     #   aiohttp
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools
+setuptools==75.8.1
+    # via
+    #   -c ./requirements.txt.constraints
+    #   sftpserver
