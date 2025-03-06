@@ -2,6 +2,8 @@
 -e ./passari-workflow
 -e ./passari-web-ui
 
+-c ./siptools-deps.txt
+
 # Limit upper version of some requirements, because the code doesn't
 # work with the newest versions (yet)
 flask<2.3
