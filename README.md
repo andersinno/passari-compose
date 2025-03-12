@@ -36,39 +36,34 @@ template TOML files in the configs directory:
 See the docs in passari, passari-workflow and passari-web-ui for more
 information about the configurations for each component.
 
-## passari-workflow
+## Passari Workflow
 
-To run the migrations automatically, set the following env variable:
+The migrations for the Passari Workflow database are run automatically
+on the docker entrypoint.
 
-```
-WORKFLOW_APPLY_MIGRATIONS=1
-```
+## Passari Web UI
 
-## passari-web-ui
-
-To create the Flask database, set the following env variable:
+To initialize the database for Passari Web UI, set the following env
+variable:
 
 ```
-WEB_UI_CREATE_DATABASE=1
+WEB_UI_INIT_DB=1
 ```
 
-To create an admin user, set the following env variables:
+When the database is initialized an admin user is automatically created
+if it it doesn't exist and the following env variables are set:
 
 ```
-WEB_UI_CREATE_ADMIN_USER=1
 WEB_UI_ADMIN_USER_EMAIL=XXX
 WEB_UI_ADMIN_USER_PASSWORD=XXX
 ```
 
-To start the Flask server in development automatically, set the following env variable:
-
-```
-WEB_UI_DEV_SERVER=1
-```
+Web UI development server is automatically started as the last command
+in the docker entrypoint.
 
 The Web UI can be accessed at http://localhost:5000
 
-## redis-commander
+## Redis Commander
 
 If you want to access Redis Commander to monitor Redis, you can visit:
 
@@ -76,13 +71,13 @@ http://localhost:8081
 
 This will give you a web UI to interact with the Redis instance running in the Docker container.
 
-## Temp Fixes
+## Temporary Fixes
 
 The docker setup installs each component with `pip install .` instead of using the pinned requirements in `/passari/requirements.txt` due to some of those being incompatible with Python 3.12. 
 
 Issues with the unpinned dependencies are fixed by installing `requirements-fixed.txt` instead.
 
-e.g. to fix `flask create-db`:
+e.g. to fix `passari-web init-db`:
 ```
 werkzeug==2.2.2 (downgrade)
 rq-dashboard==0.6.1 (downgrade)
